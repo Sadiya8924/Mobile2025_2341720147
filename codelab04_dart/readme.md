@@ -1,4 +1,4 @@
-Praktikum 6
+Tugas Praktikum
 1. Dalam bahasa dart, function adalah blok kode yang bisa di panggil untuk menjalankan tugas tertentu. Fungsi biasanya memiliki nama, parameter(opsional), dan nilai balik(opsional).
 
 --------------------------------------------------
