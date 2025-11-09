@@ -13,3 +13,6 @@ Soal no 5
 - Kode langkah 2 memisahkan antara "Pembuat Janji" (getNumber) dengan "Pekerja" (calculate)
 - getNumber(): Tugasnya membuat "janji" kosong (Completer) dan langsung memberikan "kunci" janjinya (.future) ke tombol.
 - calculate(): Tugasnya adalah "pekerja" yang berjalan di latar belakang (menunggu 5 detik), lalu menepati janji itu dengan mengisinya (completer.complete(42)).
+Soal no 6
+- Kode Langkah 2 (Tidak Aman): Kode ini berasumsi calculate() akan selalu sukses. Jika terjadi error, aplikasi akan crash atau freeze karena error-nya tidak ditangani.
+- Kode Langkah 5-6 (Aman): Kode ini siap jika terjadi kegagalan. Langkah 5 (calculate): Memakai try...catch untuk melaporkan error (completer.completeError) jika gagal. Langkah 6 (onPressed): Memakai .catchError untuk menangkap error itu dan menampilkan pesan ke pengguna (misal: 'An error occurred') tanpa membuat aplikasi crash.
