@@ -45,6 +45,31 @@ class _FuturePageState extends State<FuturePage> {
     Uri url = Uri.https(authority, path);
     return http.get(url);
   }
+  
+  Future<int> returnOneAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 1;
+  }
+
+  Future<int> returnTwoAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 2;
+  }
+
+  Future<int> returnThreeAsync() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return 3;
+  }
+
+  Future count() async {
+    int total = 0;
+    total += await returnOneAsync();
+    total += await returnTwoAsync();
+    total += await returnThreeAsync();
+    setState(() {
+      result = total.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,19 +83,8 @@ class _FuturePageState extends State<FuturePage> {
           ElevatedButton(
             child: const Text('GO!'),
             
-            // LANGKAH 5: Kode untuk tombol onPressed
             onPressed: () {
-              setState(() {}); // 1. Memulai proses & memicu UI update
-              getData().then((value) {
-                // Jika sukses mengambil data
-                result = value.body.toString().substring(0, 450); // Potong datanya
-                setState(() {}); // 2. Tampilkan hasil
-              }).catchError((_) {
-                // Jika gagal mengambil data
-                result = 'An error occurred';
-                setState(() {}); // 3. Tampilkan pesan error
-              });
-              setState(() {}); // 4. (Ada di jobsheet, jadi kita ikuti)
+              count();
             },
           ),
           const Spacer(),
