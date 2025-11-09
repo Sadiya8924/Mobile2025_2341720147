@@ -16,3 +16,9 @@ Soal no 5
 Soal no 6
 - Kode Langkah 2 (Tidak Aman): Kode ini berasumsi calculate() akan selalu sukses. Jika terjadi error, aplikasi akan crash atau freeze karena error-nya tidak ditangani.
 - Kode Langkah 5-6 (Aman): Kode ini siap jika terjadi kegagalan. Langkah 5 (calculate): Memakai try...catch untuk melaporkan error (completer.completeError) jika gagal. Langkah 6 (onPressed): Memakai .catchError untuk menangkap error itu dan menampilkan pesan ke pengguna (misal: 'An error occurred') tanpa membuat aplikasi crash.
+
+Praktikum 4
+Soal 8
+- Perbedaan utama antara kode Langkah 1 dan Langkah 4 terletak pada cara mereka menjalankan Future secara paralel.
+- Kode pada Langkah 1 menggunakan class FutureGroup yang berasal dari package eksternal async. Dengan FutureGroup, kamu harus membuat sebuah instance (objek) dari FutureGroup, kemudian secara manual menambahkan setiap Future satu per satu menggunakan method .add(), dan terakhir memanggil .close() untuk memberi tahu grup bahwa semua Future sudah ditambahkan dan siap dijalankan.
+- Sebaliknya, kode pada Langkah 4 menggunakan Future.wait, yang merupakan fungsi bawaan dari Dart (dart:async). Cara ini jauh lebih ringkas dan modern. Kamu tidak perlu membuat objek manual; kamu hanya perlu menyediakan sebuah List (daftar) yang berisi semua Future yang ingin kamu tunggu, dan Future.wait akan mengurus sisanya secara otomatis. Keduanya mencapai hasil yang sama (eksekusi paralel), tetapi Future.wait umumnya lebih disukai karena lebih sederhana.
