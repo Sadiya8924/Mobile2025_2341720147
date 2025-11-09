@@ -55,6 +55,23 @@ class _FuturePageState extends State<FuturePage> {
     }
   }
 
+  Future<void> returnFG() {
+    FutureGroup<int> futureGroup = FutureGroup<int>();
+    futureGroup.add(returnOneAsync());
+    futureGroup.add(returnTwoAsync());
+    futureGroup.add(returnThreeAsync());
+    futureGroup.close();
+    return futureGroup.future.then((List<int> value) {
+      int total = 0;
+      for (var element in value) {
+        total += element;
+      }
+      setState(() {
+        result = total.toString();
+      });
+    });
+  }
+
   // LANGKAH 4: Method untuk mengambil data dari API
   Future<http.Response> getData() async {
     const authority = "www.googleapis.com";
@@ -101,15 +118,18 @@ class _FuturePageState extends State<FuturePage> {
           const Spacer(),
           ElevatedButton(
             child: const Text('GO!'),
-            
             onPressed: () {
-              getNumber().then((value) {
-                setState(() {
-                  result = value.toString();
-                });
-              }).catchError((e) {
-                result = 'An error occured';
-              });
+              returnFG();
+            // child: const Text('GO!'),
+            
+            // onPressed: () {
+            //   getNumber().then((value) {
+            //     setState(() {
+            //       result = value.toString();
+            //     });
+            //   }).catchError((e) {
+            //     result = 'An error occured';
+            //   });
             },
           ),
           const Spacer(),
