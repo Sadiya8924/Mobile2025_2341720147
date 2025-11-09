@@ -22,3 +22,9 @@ Soal 8
 - Perbedaan utama antara kode Langkah 1 dan Langkah 4 terletak pada cara mereka menjalankan Future secara paralel.
 - Kode pada Langkah 1 menggunakan class FutureGroup yang berasal dari package eksternal async. Dengan FutureGroup, kamu harus membuat sebuah instance (objek) dari FutureGroup, kemudian secara manual menambahkan setiap Future satu per satu menggunakan method .add(), dan terakhir memanggil .close() untuk memberi tahu grup bahwa semua Future sudah ditambahkan dan siap dijalankan.
 - Sebaliknya, kode pada Langkah 4 menggunakan Future.wait, yang merupakan fungsi bawaan dari Dart (dart:async). Cara ini jauh lebih ringkas dan modern. Kamu tidak perlu membuat objek manual; kamu hanya perlu menyediakan sebuah List (daftar) yang berisi semua Future yang ingin kamu tunggu, dan Future.wait akan mengurus sisanya secara otomatis. Keduanya mencapai hasil yang sama (eksekusi paralel), tetapi Future.wait umumnya lebih disukai karena lebih sederhana.
+
+Praktikm 5
+Soal no 10
+- Saat memanggil handleError() di ElevatedButton, hasilnya akan sama persis dengan metode sebelumnya, yaitu menampilkan pesan error 'Exception: Something terrible happened!' di layar dan mencetak 'Complete' di konsol.
+- Langkah 2 menggunakan gaya callback .catchError() untuk menangani Future secara eksplisit, sedangkan Langkah 4 menggunakan gaya try...catch...finally yang lebih modern dan seringkali lebih mudah dibaca karena terlihat seperti kode sinkronus (berurutan).
+
