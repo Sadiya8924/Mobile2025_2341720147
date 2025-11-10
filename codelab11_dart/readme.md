@@ -5,7 +5,7 @@ Soal no 3
 
 Praktikum 2
 Soal no 4
-- async adalah "penanda" yang kamu pasang di sebuah fungsi. Ini memberitahu Dart: "Fungsi ini adalah fungsi asynchronous, artinya dia butuh waktu untuk selesai dan tidak akan langsung mengembalikan hasil."
+- async adalah "penanda" yang di pasang di sebuah fungsi. Ini memberitahu Dart: "Fungsi ini adalah fungsi asynchronous, artinya dia butuh waktu untuk selesai dan tidak akan langsung mengembalikan hasil."
 - await adalah perintah "TUNGGU". Perintah ini hanya bisa dipakai di dalam fungsi async. Saat program bertemu await, dia akan berhenti di baris itu dan menunggu sampai "janji" (Future) di sebelahnya selesai, tanpa membuat seluruh aplikasi macet.
 
 Praktikum 3
@@ -20,8 +20,8 @@ Soal no 6
 Praktikum 4
 Soal 8
 - Perbedaan utama antara kode Langkah 1 dan Langkah 4 terletak pada cara mereka menjalankan Future secara paralel.
-- Kode pada Langkah 1 menggunakan class FutureGroup yang berasal dari package eksternal async. Dengan FutureGroup, kamu harus membuat sebuah instance (objek) dari FutureGroup, kemudian secara manual menambahkan setiap Future satu per satu menggunakan method .add(), dan terakhir memanggil .close() untuk memberi tahu grup bahwa semua Future sudah ditambahkan dan siap dijalankan.
-- Sebaliknya, kode pada Langkah 4 menggunakan Future.wait, yang merupakan fungsi bawaan dari Dart (dart:async). Cara ini jauh lebih ringkas dan modern. Kamu tidak perlu membuat objek manual; kamu hanya perlu menyediakan sebuah List (daftar) yang berisi semua Future yang ingin kamu tunggu, dan Future.wait akan mengurus sisanya secara otomatis. Keduanya mencapai hasil yang sama (eksekusi paralel), tetapi Future.wait umumnya lebih disukai karena lebih sederhana.
+- Kode pada Langkah 1 menggunakan class FutureGroup yang berasal dari package eksternal async. Dengan FutureGroup, harus membuat sebuah instance (objek) dari FutureGroup, kemudian secara manual menambahkan setiap Future satu per satu menggunakan method .add(), dan terakhir memanggil .close() untuk memberi tahu grup bahwa semua Future sudah ditambahkan dan siap dijalankan.
+- Sebaliknya, kode pada Langkah 4 menggunakan Future.wait, yang merupakan fungsi bawaan dari Dart (dart:async). Cara ini jauh lebih ringkas dan modern. tidak perlu membuat objek manual; hanya perlu menyediakan sebuah List (daftar) yang berisi semua Future yang ingin tunggu, dan Future.wait akan mengurus sisanya secara otomatis. Keduanya mencapai hasil yang sama (eksekusi paralel), tetapi Future.wait umumnya lebih disukai karena lebih sederhana.
 
 Praktikm 5
 Soal no 10
@@ -37,3 +37,7 @@ Soal no 13
 - Perbedaan UI-nya adalah kita tidak lagi mengontrol loading state (animasi putar) secara manual menggunakan variabel String myPosition yang kosong. Ini terjadi karena FutureBuilder secara otomatis mengelola status UI berdasarkan siklus hidup Future (yaitu waiting, done, atau error), sehingga kode di dalam build menjadi jauh lebih bersih dan reaktif.
 Soal no 14
 - Perbedaan UI-nya adalah aplikasi kita sekarang dapat menampilkan pesan error 'Something terrible happened!' di layar jika Future (janji) gagal dieksekusi. Ini terjadi karena kita menambahkan pengecekan if (snapshot.hasError) di dalam FutureBuilder, yang secara spesifik menangani status error dari snapshot dan menampilkan UI yang sesuai untuk error tersebut.
+
+Praktikum 8
+Soal no 16
+- Saat tombol 'Change Color' diklik, halaman pertama (NavigationFirst) akan menunggu data dari halaman kedua (NavigationSecond). Saat mengklik tombol warna (misal 'Red') di halaman kedua, halaman itu akan ditutup dan mengirimkan data warna merah kembali ke halaman pertama. Halaman pertama kemudian menerima data warna itu dan membangun ulang UI-nya (setState) dengan warna background baru.
