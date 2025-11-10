@@ -28,3 +28,6 @@ Soal no 10
 - Saat memanggil handleError() di ElevatedButton, hasilnya akan sama persis dengan metode sebelumnya, yaitu menampilkan pesan error 'Exception: Something terrible happened!' di layar dan mencetak 'Complete' di konsol.
 - Langkah 2 menggunakan gaya callback .catchError() untuk menangani Future secara eksplisit, sedangkan Langkah 4 menggunakan gaya try...catch...finally yang lebih modern dan seringkali lebih mudah dibaca karena terlihat seperti kode sinkronus (berurutan).
 
+Praktikum 6
+Soal no 12
+- tidak akan mendapatkan koordinat GPS jika menjalankan aplikasi di browser. Ini terjadi karena plugin geolocator bekerja dengan cara mengakses API perangkat keras GPS native (asli) dari Android atau iOS, dan API native tersebut tidak ada atau tidak dapat diakses dari lingkungan browser web.
