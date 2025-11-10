@@ -1,5 +1,6 @@
 // Import yang diperlukan
 import 'dart:async'; // Untuk 'Future' (operasi asynchronous)
+import 'package:book/navigation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // Untuk mengambil data dari API
 import 'package:async/async.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const NavigationFirst(),
+      home: const NavigationDialogScreen(),
       // home: const FuturePage(),
     );
   }

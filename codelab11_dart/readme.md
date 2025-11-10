@@ -41,3 +41,7 @@ Soal no 14
 Praktikum 8
 Soal no 16
 - Saat tombol 'Change Color' diklik, halaman pertama (NavigationFirst) akan menunggu data dari halaman kedua (NavigationSecond). Saat mengklik tombol warna (misal 'Red') di halaman kedua, halaman itu akan ditutup dan mengirimkan data warna merah kembali ke halaman pertama. Halaman pertama kemudian menerima data warna itu dan membangun ulang UI-nya (setState) dengan warna background baru.
+
+ Praktikum 9
+ Soal no 17
+ - Saat salah satu tombol warna (Red, Green, atau Blue) diklik, dialog (pop-up) akan tertutup dan warna background halaman akan berubah sesuai warna yang dipilih. Ini terjadi karena tombol tersebut pertama-tama mengubah nilai variabel color, lalu memanggil Navigator.pop() untuk menutup dialog. Setelah dialog tertutup, perintah await selesai, dan kode setState(() {}); dieksekusi, yang memaksa widget untuk membangun ulang dirinya dengan nilai color yang baru.
