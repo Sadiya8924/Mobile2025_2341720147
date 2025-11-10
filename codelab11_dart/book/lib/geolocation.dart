@@ -1,3 +1,4 @@
+import 'dart:async'; // Diperlukan untuk Future
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart'; // Import plugin
 
@@ -9,44 +10,53 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  String myPosition = ''; 
+  // Langkah 2: Tambah variabel
+  Future<Position>? position; 
 
+  // Langkah 3: Modifikasi initState
   @override
   void initState() {
     super.initState();
-    getPosition().then((Position myPos) {
-      myPosition =
-          'Latitude: ${myPos.latitude.toString()} - Longitude: ${myPos.longitude.toString()}';
-      
-      setState(() {
-        myPosition = myPosition;
-      });
-    });
+    position = getPosition();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Logika untuk menampilkan loading atau teks
-    final myWidget = myPosition == ''
-        ? const CircularProgressIndicator() // JIKA myPosition kosong, tampilkan loading
-        : Text(myPosition); // JIKA myPosition terisi, tampilkan teks lokasi
-
     return Scaffold(
-      appBar: AppBar(
-        // SOAL 11: Ganti judulnya di sini
-        title: const Text('Current Location'), 
+      appBar: AppBar(title: const Text('Current Location')),
+      body: Center(
+        child: FutureBuilder(
+          future: position,
+          builder: (BuildContext context, AsyncSnapshot<Position> snapshot) {
+            
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              
+              // --- INI KODE TAMBAHAN DARI LANGKAH 5 ---
+              if (snapshot.hasError) {
+                return Text('Something terrible happened!');
+              }
+              // --- BATAS AKHIR KODE TAMBAHAN ---
+              
+              return Text(snapshot.data.toString());
+            
+            } else {
+              return const Text('');
+            }
+          },
+        ),
       ),
-      body: Center(child: myWidget), // Tampilkan widget sesuai logika di atas
     );
   }
-
-  Future<Position> getPosition() async {
-    await Geolocator.requestPermission();
-    
-    await Geolocator.isLocationServiceEnabled();
-    
-    Position? position = await Geolocator.getCurrentPosition();
-    
-    return position!;
-  }
+}
+// Langkah 1: Modifikasi method getPosition
+Future<Position> getPosition() async {
+  await Geolocator.isLocationServiceEnabled();
+  
+  await Future.delayed(const Duration(seconds: 3));
+  
+  Position position = await Geolocator.getCurrentPosition();
+  return position;
 }

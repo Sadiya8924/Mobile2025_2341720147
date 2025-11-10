@@ -31,3 +31,9 @@ Soal no 10
 Praktikum 6
 Soal no 12
 - tidak akan mendapatkan koordinat GPS jika menjalankan aplikasi di browser. Ini terjadi karena plugin geolocator bekerja dengan cara mengakses API perangkat keras GPS native (asli) dari Android atau iOS, dan API native tersebut tidak ada atau tidak dapat diakses dari lingkungan browser web.
+
+Praktikum 7
+Soal no 13
+- Perbedaan UI-nya adalah kita tidak lagi mengontrol loading state (animasi putar) secara manual menggunakan variabel String myPosition yang kosong. Ini terjadi karena FutureBuilder secara otomatis mengelola status UI berdasarkan siklus hidup Future (yaitu waiting, done, atau error), sehingga kode di dalam build menjadi jauh lebih bersih dan reaktif.
+Soal no 14
+- Perbedaan UI-nya adalah aplikasi kita sekarang dapat menampilkan pesan error 'Something terrible happened!' di layar jika Future (janji) gagal dieksekusi. Ini terjadi karena kita menambahkan pengecekan if (snapshot.hasError) di dalam FutureBuilder, yang secara spesifik menangani status error dari snapshot dan menampilkan UI yang sesuai untuk error tersebut.
