@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+
+class ColorStream {
+  final List<Color> colors = [
+    Colors.blueGrey,
+    Colors.amber,
+    Colors.deepPurple,
+    Colors.lightBlue,
+    Colors.teal,
+    //JAWABAN SOAL 2
+    Colors.green,
+    Colors.red,
+    Colors.orange,
+    Colors.pink,
+    Colors.brown
+  ];
+}
