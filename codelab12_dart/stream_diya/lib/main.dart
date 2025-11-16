@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stream Diya',
+      title: 'Stream Diyaa', 
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -36,6 +36,11 @@ class _StreamHomePageState extends State<StreamHomePage> {
   late StreamController<int> numberStreamController;
   late NumberStream numberStream;
   late StreamTransformer transformer;
+  late StreamSubscription subscription;
+
+  void stopStream() {
+    numberStreamController.close();
+  }
 
   void changeColor() {
     colorStream.getColors().listen((eventColor) {
@@ -48,8 +53,15 @@ class _StreamHomePageState extends State<StreamHomePage> {
   void addRandomNumber() {
     Random random = Random();
     int myNum = random.nextInt(10);
-    numberStream.addNumberToSink(myNum);
-    // numberStream.addError();
+
+    // [LANGKAH 8] Edit - Tambahkan pengecekan
+    if (!numberStreamController.isClosed) {
+      numberStream.addNumberToSink(myNum);
+    } else {
+      setState(() {
+        lastNumber = -1;
+      });
+    }
   }
 
   @override
@@ -68,14 +80,18 @@ class _StreamHomePageState extends State<StreamHomePage> {
         handleDone: (sink) => sink.close()
     );
     
-    stream.listen((event) {
+    subscription = stream.transform(transformer).listen((event) {
       setState(() {
         lastNumber = event;
       });
-    }).onError((error) {
+    });
+    subscription.onError((error) {
       setState(() {
         lastNumber = -1;
       });
+    });
+    subscription.onDone(() {
+      print('OnDone was called');
     });
 
     super.initState();
@@ -85,7 +101,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stream Nama Diya'),
+        title: const Text('Stream Diyaa'),
       ),
       body: SizedBox(
         width: double.infinity,
@@ -98,6 +114,12 @@ class _StreamHomePageState extends State<StreamHomePage> {
               onPressed: () => addRandomNumber(),
               child: Text('New Random Number'),
             ),
+
+            // [LANGKAH 7] Tombol baru
+            ElevatedButton(
+              onPressed: () => stopStream(),
+              child: const Text('Stop Subscription'),
+            ),
           ],
         ),
       ),
@@ -107,6 +129,7 @@ class _StreamHomePageState extends State<StreamHomePage> {
   @override
   void dispose() {
     numberStreamController.close();
+    subscription.cancel();
     super.dispose();
   }
 }
