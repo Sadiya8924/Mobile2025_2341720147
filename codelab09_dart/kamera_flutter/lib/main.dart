@@ -1,6 +1,6 @@
-import 'package.camera/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'widget/takepicture_screen.dart'; // <-- Import file yang kita buat
+import 'widgets/takepicture_screen.dart';
 
 Future<void> main() async {
   // Ensure that plugin services are initialized so that `availableCameras()`

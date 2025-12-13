@@ -1,13 +1,10 @@
-import 'package.camera/camera.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'displaypicture_screen.dart'; // <-- Pastikan ini di-import
+import 'displaypicture_screen.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
-  const TakePictureScreen({
-    super.key,
-    required this.camera,
-  });
+  const TakePictureScreen({super.key, required this.camera});
 
   final CameraDescription camera;
 
@@ -45,7 +42,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Take a picture - NIM Anda')),
+      appBar: AppBar(title: const Text('Take a picture - Diya 2341720147')),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -85,7 +82,6 @@ class TakePictureScreenState extends State<TakePictureScreen> {
               ),
             );
             // --- Akhir dari kode baru ---
-
           } catch (e) {
             // If an error occurs, log the error to the console.
             print(e);

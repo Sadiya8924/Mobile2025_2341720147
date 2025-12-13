@@ -1,19 +1,71 @@
 import 'dart:io'; // <-- Import ini penting untuk 'File'
 import 'package:flutter/material.dart';
+import 'filter_selector.dart';
 
-// A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+// A widget that displays the picture taken by the user with photo filter carousel.
+class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
 
   const DisplayPictureScreen({super.key, required this.imagePath});
 
   @override
+  State<DisplayPictureScreen> createState() => _DisplayPictureScreenState();
+}
+
+class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
+  final _filters = [
+    Colors.white,
+    ...List.generate(
+      Colors.primaries.length,
+      (index) => Colors.primaries[(index * 4) % Colors.primaries.length],
+    )
+  ];
+
+  final _filterColor = ValueNotifier<Color>(Colors.white);
+
+  void _onFilterChanged(Color value) {
+    _filterColor.value = value;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture - NIM Anda')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
+      appBar: AppBar(title: const Text('Photo Filter - Diya 2341720147')),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: _buildPhotoWithFilter(),
+          ),
+          Positioned(
+            left: 0.0,
+            right: 0.0,
+            bottom: 0.0,
+            child: _buildFilterSelector(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPhotoWithFilter() {
+    return ValueListenableBuilder(
+      valueListenable: _filterColor,
+      builder: (context, color, child) {
+        return Image.file(
+          File(widget.imagePath),
+          color: color.withOpacity(0.5),
+          colorBlendMode: BlendMode.color,
+          fit: BoxFit.cover,
+        );
+      },
+    );
+  }
+
+  Widget _buildFilterSelector() {
+    return FilterSelector(
+      onFilterChanged: _onFilterChanged,
+      filters: _filters,
+      imagePath: widget.imagePath,
     );
   }
 }
