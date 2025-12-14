@@ -4,6 +4,7 @@ import 'model/pizza.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,6 +42,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String tempPath = '';
   late File myFile;
   String fileText = '';
+  
+  final pwdController = TextEditingController();
+  String myPass = '';
+  final storage = const FlutterSecureStorage();
 
   Future<void> getPaths() async {
     final docDir = await getApplicationDocumentsDirectory();
@@ -70,6 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<void> writeToSecureStorage() async {
+    await storage.write(key: 'myKey', value: pwdController.text);
+  }
+
+  Future<String> readFromSecureStorage() async {
+    String secret = await storage.read(key: 'myKey') ?? '';
+    return secret;
   }
 
   Future<void> readAndWritePreference() async {
@@ -132,31 +146,40 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                'Doc path: ${documentPath.isEmpty ? "Loading..." : documentPath}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                'Temp path: ${tempPath.isEmpty ? "Loading..." : tempPath}',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
+              const SizedBox(height: 20),
+              TextField(
+                controller: pwdController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter password',
+                  border: OutlineInputBorder(),
+                ),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => readFile(),
-                child: const Text('Read File'),
+                onPressed: () {
+                  writeToSecureStorage();
+                },
+                child: const Text('Save Value'),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  readFromSecureStorage().then((value) {
+                    setState(() {
+                      myPass = value;
+                    });
+                  });
+                },
+                child: const Text('Read Value'),
               ),
               const SizedBox(height: 20),
               Text(
-                fileText,
+                myPass,
                 style: const TextStyle(fontSize: 18),
               ),
             ],
