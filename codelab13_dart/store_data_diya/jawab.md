@@ -10,3 +10,6 @@ Tanpa konstanta, harus mencari dan mengubah di semua tempat yang menggunakan str
 Mengurangi risiko lupa mengubah di beberapa tempat
 Kode lebih konsisten dan mudah di-refactor
 
+Soal 8:
+Langkah 3: Method untuk menulis data string ke file pizzas.txt. Menggunakan try-catch untuk error handling
+Langkah 7: Setelah tombol "Read File" ditekan, konten file dibaca dan ditampilkan di layar

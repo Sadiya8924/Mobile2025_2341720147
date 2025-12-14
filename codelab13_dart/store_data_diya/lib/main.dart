@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'model/pizza.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +37,40 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<Pizza> myPizzas = [];
   int appCounter = 0;
+  String documentPath = '';
+  String tempPath = '';
+  late File myFile;
+  String fileText = '';
+
+  Future<void> getPaths() async {
+    final docDir = await getApplicationDocumentsDirectory();
+    final tempDir = await getTemporaryDirectory();
+    setState(() {
+      documentPath = docDir.path;
+      tempPath = tempDir.path;
+    });
+  }
+
+  Future<bool> writeFile() async {
+    try {
+      await myFile.writeAsString('Margherita, Capricciosa, Napoli');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> readFile() async {
+    try {
+      String fileContent = await myFile.readAsString();
+      setState(() {
+        fileText = fileContent;
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   Future<void> readAndWritePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -78,6 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     readAndWritePreference();
+    getPaths().then((_) {
+      myFile = File('$documentPath/pizzas.txt');
+      writeFile();
+    });
     readJsonFile().then((value) {
       setState(() {
         myPizzas = value;
@@ -93,23 +133,34 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'You have opened the app $appCounter times.',
-              style: const TextStyle(
-                fontSize: 20,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                'Doc path: ${documentPath.isEmpty ? "Loading..." : documentPath}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                deletePreference();
-              },
-              child: const Text('Reset counter'),
-            ),
-          ],
+              const SizedBox(height: 10),
+              Text(
+                'Temp path: ${tempPath.isEmpty ? "Loading..." : tempPath}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => readFile(),
+                child: const Text('Read File'),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                fileText,
+                style: const TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
         ),
       ),
     );
